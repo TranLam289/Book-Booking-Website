@@ -82,6 +82,7 @@ const Add = () => {
         onClick={handleClick}
         className='bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-600'
       >
+        <Link href='/'></Link>
         Add
       </button>
       {error && <p className='text-red-500 mt-2'>Something went wrong!</p>}

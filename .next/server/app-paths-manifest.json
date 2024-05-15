@@ -1,7 +1,7 @@
 {
-  "/(routes)/book-crud/add/page": "app/(routes)/book-crud/add/page.js",
-  "/(routes)/homepage/page": "app/(routes)/homepage/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/(routes)/access/register/page": "app/(routes)/access/register/page.js",
-  "/(routes)/access/login/page": "app/(routes)/access/login/page.js",
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/(routes)/book-crud/add/page": "app/(routes)/book-crud/add/page.js",
+  "/(routes)/access/login/page": "app/(routes)/access/login/page.js"
 }

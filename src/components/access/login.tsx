@@ -1,30 +1,30 @@
 'use client';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import axios from 'axios';
 
-const Login: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export default function Login() {
+  const router = useRouter();
 
-  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value);
-  };
+  const [values, setValues] = useState({
+    username: '',
+    email: '',
+    pass: '',
+  });
 
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-
-  const handleLogin = () => {
-    // Handle login logic here
-  };
-
-  const handleRegister = () => {
-    // Handle register logic here
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    axios
+      .post('http://localhost:7000/login', values)
+      .then((res) => {
+        if (res.data.Status === 'Login successful') {
+          router.push('/');
+        } else {
+          alert('Login failed. Please try again');
+        }
+      })
+      .then((err) => console.log(err));
   };
 
   return (
@@ -33,52 +33,44 @@ const Login: React.FC = () => {
         <h1 className='text-3xl font-extrabold mb-8 text-center text-gray-900'>
           Login
         </h1>
-        <form onSubmit={handleLogin} className='space-y-6'>
-          <div className='space-y-1'>
-            <label
-              htmlFor='username'
-              className='block text-lg font-medium text-gray-700'
-            >
-              Username
+        <form onSubmit={handleSubmit} className='space-y-6'>
+          <div className='mb-4'>
+            <label htmlFor='username'>
+              <strong>User Name</strong>
             </label>
             <input
               type='text'
-              id='username'
               placeholder='Enter your username'
-              value={username}
-              onChange={handleUsernameChange}
+              name='username'
+              onChange={(e) =>
+                setValues({ ...values, username: e.target.value })
+              }
               className='w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent'
             />
           </div>
-          <div className='space-y-1'>
-            <label
-              htmlFor='email'
-              className='block text-lg font-medium text-gray-700'
-            >
-              Email
+
+          <div className='mb-4'>
+            <label htmlFor='email'>
+              <strong>Email</strong>
             </label>
             <input
-              type='email'
-              id='email'
+              type='text'
               placeholder='Enter your email'
-              value={email}
-              onChange={handleEmailChange}
+              name='email'
+              onChange={(e) => setValues({ ...values, email: e.target.value })}
               className='w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent'
             />
           </div>
-          <div className='space-y-1'>
-            <label
-              htmlFor='password'
-              className='block text-lg font-medium text-gray-700'
-            >
-              Password
+
+          <div className='mb-4'>
+            <label htmlFor='pass'>
+              <strong>Password</strong>
             </label>
             <input
               type='password'
-              id='password'
               placeholder='Enter your password'
-              value={password}
-              onChange={handlePasswordChange}
+              name='pass'
+              onChange={(e) => setValues({ ...values, pass: e.target.value })}
               className='w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent'
             />
           </div>
@@ -93,10 +85,7 @@ const Login: React.FC = () => {
           <div className='text-center mt-4'>
             <p className='text-gray-600'>
               Don't have an account?
-              <button
-                onClick={handleRegister}
-                className='text-indigo-600 hover:text-indigo-800 font-semibold ml-1'
-              >
+              <button className='text-indigo-600 hover:text-indigo-800 font-semibold ml-1'>
                 <Link href='/access/register'>Register</Link>
               </button>
             </p>
@@ -105,6 +94,4 @@ const Login: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default Login;
+}

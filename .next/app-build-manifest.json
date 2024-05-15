@@ -1,9 +1,9 @@
 {
   "pages": {
-    "/page": [
+    "/(routes)/access/register/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
+      "static/chunks/app/(routes)/access/register/page.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
@@ -11,25 +11,25 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/(routes)/access/register/page": [
+    "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(routes)/access/register/page.js"
-    ],
-    "/(routes)/access/login/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(routes)/access/login/page.js"
+      "static/chunks/app/page.js"
     ],
     "/(routes)/book-crud/add/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(routes)/book-crud/add/page.js"
     ],
-    "/(routes)/homepage/page": [
+    "/(routes)/access/login/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(routes)/homepage/page.js"
+      "static/chunks/app/(routes)/access/login/page.js"
+    ],
+    "/_not-found/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/_not-found/page.js"
     ]
   }
 }
