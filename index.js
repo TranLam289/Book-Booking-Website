@@ -3,6 +3,7 @@ import mysql from 'mysql2';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
 
+const salt = 10;
 const app = express();
 
 const db = mysql.createConnection({
@@ -38,17 +39,18 @@ app.get('/books', (req, res) => {
 //ADD BOOK
 app.post('/books', (req, res) => {
   const q =
-    'INSERT INTO Book (`title`, `bookDesc`, `author`, `book_cover`) VALUES (?)';
+    'INSERT INTO Book (`title`, `bookDesc`, `author`, `book_cover` , `book_status`) VALUES (?)';
   const values = [
     req.body.title,
     req.body.bookDesc,
-    req.body.price,
-    req.body.cover,
+    req.body.author,
+    req.body.book_cover,
+    req.body.book_status,
   ];
   // Run with DB - SQL query
   db.query(q, [values], (err, data) => {
     if (err) return res.json(err);
-    return res.json('Book has beeen added successfully');
+    return res.json(data);
   });
 });
 
@@ -81,6 +83,22 @@ app.put('/books/:book_id', (req, res) => {
   db.query(q, [...values, bookId], (err, data) => {
     if (err) return res.json(err);
     return res.json(data);
+  });
+});
+
+//Register
+app.post('/register', (req, res) => {
+  const sql = 'INSERT INTO users (`username`, `email`, `pass`) VALUES (?)';
+
+  bcrypt.hash(req.body.pass.toString(), salt, (err, hash) => {
+    if (err) return res.json({ Error: 'Errror for hashing password' });
+
+    const values = [req.body.username, req.body.email, req.body.pass];
+
+    db.query(sql, [values], (err, data) => {
+      if (err) return res.json({ Error: ' Inserting data rrrror in server' });
+      return res.json({ Status: 'User registered successfully' });
+    });
   });
 });
 
