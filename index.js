@@ -2,9 +2,12 @@ import express from 'express';
 import mysql from 'mysql2';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import cookieParser from 'cookie-parser';
 
 const salt = 10;
 const app = express();
+app.use(cookieParser());
 
 const db = mysql.createConnection({
   host: 'localhost',
@@ -88,17 +91,45 @@ app.put('/books/:book_id', (req, res) => {
 
 //Register
 app.post('/register', (req, res) => {
-  const sql = 'INSERT INTO users (`username`, `email`, `pass`) VALUES (?)';
+  const sql =
+    'INSERT INTO users (`username`, `email`, `pass`, `role_type`) VALUES (?)';
 
   bcrypt.hash(req.body.pass.toString(), salt, (err, hash) => {
     if (err) return res.json({ Error: 'Errror for hashing password' });
 
-    const values = [req.body.username, req.body.email, req.body.pass];
+    const values = [
+      req.body.username,
+      req.body.email,
+      hash,
+      req.body.role_type,
+    ];
 
     db.query(sql, [values], (err, data) => {
-      if (err) return res.json({ Error: ' Inserting data rrrror in server' });
+      if (err) return res.json({ Error: ' Inserting data error in server' });
       return res.json({ Status: 'User registered successfully' });
     });
+  });
+});
+
+//Login
+app.post('/login', (req, res) => {
+  const sql = 'SELECT * FROM users WHERE email = ?';
+
+  db.query(sql, [req.body.email], (err, data) => {
+    if (err) return res.json({ Error: 'Error in server' });
+    if (data.length > 0) {
+      bcrypt.compare(req.body.pass.toString(), data[0].pass, (err, result) => {
+        if (err) return res.json({ Error: 'Error in comparing password' });
+
+        if (result) {
+          return res.json({ Status: 'Login successful' });
+        } else {
+          return res.json({ Error: 'Password not matched' });
+        }
+      });
+    } else {
+      return res.json({ Error: 'User not found' });
+    }
   });
 });
 
