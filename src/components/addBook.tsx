@@ -11,6 +11,7 @@ const Add = () => {
     bookDesc: '',
     author: null,
     book_cover: '',
+    book_status: '',
   });
   const [error, setError] = useState(false);
 
@@ -26,6 +27,8 @@ const Add = () => {
     e.preventDefault();
     try {
       await axios.post('http://localhost:7000/books', book);
+      setSuccess(true);
+      setError(false);
       //  navigate('/');
     } catch (err) {
       console.log(err);
@@ -65,17 +68,25 @@ const Add = () => {
         onChange={handleChange}
         className='block w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'
       />
-
+      <select
+        name='book_status'
+        onChange={handleChange}
+        className='block w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'
+      >
+        <option value=''>Select book status</option>
+        <option value='Available'>Available</option>
+        <option value='Not Available'>Not Available</option>
+      </select>
       {success && <p className='text-green-600 mt-2'>Added Successfully</p>}
       <button
         onClick={handleClick}
-        className='bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600'
+        className='bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-600'
       >
         Add
       </button>
       {error && <p className='text-red-500 mt-2'>Something went wrong!</p>}
       <p className='mt-4'>
-        <Link href='/homepage' className='text-blue-500 hover:underline'>
+        <Link href='/' className='text-blue-500 hover:underline'>
           See all books
         </Link>
       </p>

@@ -14,7 +14,7 @@ const header = () => {
       </div>
 
       <div className='px-6'>
-        <Link href='/access/register'>
+        <Link href='/access/login'>
           <p className='text-white bg-orange-500 inline-block justify-end '>
             Login
           </p>

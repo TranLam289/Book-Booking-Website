@@ -12,6 +12,7 @@ interface Book {
   author: string;
   bookDesc: string;
   book_cover: string; // Assuming cover is a string URL
+  book_status: string;
 }
 
 const Books = () => {
@@ -64,11 +65,15 @@ const Books = () => {
                 alt=''
                 className='w-full h-48 object-cover mb-4'
               />
-              <h2 className='text-xl font-bold mb-2'>{book.title}</h2>
-              <p className='text-gray-700 mb-4'>{book.bookDesc}</p>
+              <h2 className='text-xl font-bold mb-2'>Title: {book.title}</h2>
+              <p className='text-gray-700 mb-4'>Description: {book.bookDesc}</p>
               <span className='text-lg font-semibold text-blue-500'>
-                {book.author}
+                Author: {book.author}
               </span>
+              <p className='text-gray-700 mb-4 uppercase font-[600] py-2'>
+                {book.book_status}
+              </p>
+
               <div className='mt-4'>
                 <button
                   onClick={() => handleDelete(book.book_id)}

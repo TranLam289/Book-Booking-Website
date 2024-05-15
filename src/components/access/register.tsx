@@ -1,16 +1,26 @@
 'use client';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import axios from 'axios';
 
 export default function Register() {
   const [values, setValues] = useState({
     username: '',
     email: '',
-    password: '',
+    pass: '',
   });
 
   const handleChange = (e: any) => {
-    setValues((values) => ({ ...values, [e.target.username]: e.target.value }));
+    const { name, value } = e.target;
+    setValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    axios.post('http://localhost:7000/register', values);
   };
 
   return (
@@ -19,11 +29,10 @@ export default function Register() {
         <h2 className='text-2xl font-bold mb-6 text-center text-gray-800'>
           Register
         </h2>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className='mb-4'>
             <label
               htmlFor='username'
-              onChange={handleChange}
               className='block text-gray-700 font-semibold mb-2'
             >
               Username:
@@ -31,6 +40,8 @@ export default function Register() {
             <input
               type='text'
               id='username'
+              value={values.username}
+              onChange={handleChange}
               className='w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             />
           </div>
@@ -44,6 +55,8 @@ export default function Register() {
             <input
               type='email'
               id='email'
+              value={values.email}
+              onChange={handleChange}
               className='w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             />
           </div>
@@ -57,6 +70,8 @@ export default function Register() {
             <input
               type='password'
               id='password'
+              value={values.pass}
+              onChange={handleChange}
               className='w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             />
           </div>
